@@ -10,3 +10,13 @@ Basic sky simulation built with physical accuracy in mind
 ## Supported viewers
 
 * https://photo-sphere-viewer.js.org/playground.html
+
+## Sky models
+
+**Perez All-Weather**
+
+All-weather model for sky luminance distribution—Preliminary configuration and validation, Perez et al., Solar Energy (vol. 50, issue 3), 1993
+
+**Preetham**
+
+A practical analytic model for daylight, Preetham et al., Proceedings of the 26th annual conference on Computer graphics and interactive techniques (SIGGRAPH '99), 1999
