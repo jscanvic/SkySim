@@ -14,7 +14,7 @@ u, v = torch.meshgrid(u, v, indexing='xy')
 
 # Convert to spherical coordinates
 psi = 2 * math.pi * u
-phi = math.pi * (0.5 - v)
+phi = math.pi / 2 * (1 - v)
 
 # Set the position of the sun
 psi_s = math.pi
