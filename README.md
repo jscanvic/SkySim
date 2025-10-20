@@ -8,7 +8,7 @@ Basic sky simulation built with physical accuracy in mind
     <a href="https://panoraven.com/en/embed/TcZGdmp79N">View in 360°!</a>
 </p
 
-## How to use?
+## Instructions
 
 1. Run the command `python simulate.py` in your terminal.
 2. Open the generated `sky.jpeg` in one of the supported viewers.
@@ -27,6 +27,10 @@ All-weather model for sky luminance distribution—Preliminary configuration and
 **Preetham**
 
 A practical analytic model for daylight, Preetham et al., Proceedings of the 26th annual conference on Computer graphics and interactive techniques (SIGGRAPH '99), 1999
+
+## Formula
+
+The formula used in the simulation are reported [here](notes.pdf).
 
 ## TODO
 
