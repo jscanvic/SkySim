@@ -18,7 +18,7 @@ phi = math.pi / 2 * (1 - v)
 
 # Set the position of the sun
 psi_s = math.pi
-phi_s = math.pi / 2
+phi_s = 0.0
 
 # Compute the zenith angles
 theta = torch.pi / 2 - phi

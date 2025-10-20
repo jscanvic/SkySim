@@ -2,6 +2,8 @@
 
 Basic sky simulation built with physical accuracy in mind
 
+![Sunset sunrise](sunset_sunrise.jpeg)
+
 ## How to use?
 
 1. Run the command `python simulate.py` in your terminal.
