@@ -2,7 +2,12 @@
 
 Basic sky simulation built with physical accuracy in mind
 
-![Simulated sky](sky.jpeg)
+
+<p align="center">
+    <img src="sky.jpeg" alt="Sky simulation example" width="100%" />
+
+    View in 360° <a href="https://panoraven.com/en/embed/TcZGdmp79N">here</a>
+</p
 
 ## How to use?
 
@@ -11,6 +16,7 @@ Basic sky simulation built with physical accuracy in mind
 
 ## Supported viewers
 
+* https://panoraven.com
 * https://photo-sphere-viewer.js.org/playground.html
 
 ## Sky models
