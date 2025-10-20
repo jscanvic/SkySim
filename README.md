@@ -28,9 +28,9 @@ All-weather model for sky luminance distribution—Preliminary configuration and
 
 A practical analytic model for daylight, Preetham et al., Proceedings of the 26th annual conference on Computer graphics and interactive techniques (SIGGRAPH '99), 1999
 
-## Formula
+## Equations
 
-The formula used in the simulation are reported [here](notes.pdf).
+The equations used in the simulation are reported [here](notes.pdf).
 
 ## TODO
 

@@ -137,7 +137,7 @@ $
 
 #pagebreak()
 
-*Additional computations.*
+*Additional equations.*
 
 _Discretization in equirectangular coordinates._
 
