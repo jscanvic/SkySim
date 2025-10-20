@@ -22,3 +22,11 @@ All-weather model for sky luminance distribution—Preliminary configuration and
 **Preetham**
 
 A practical analytic model for daylight, Preetham et al., Proceedings of the 26th annual conference on Computer graphics and interactive techniques (SIGGRAPH '99), 1999
+
+## TODO
+
+* [ ] Make a proper command-line interface
+* [ ] Use a better scale for the final dynamic range
+* [ ] Compute the position of the sun from time and location
+* [ ] Make an interactive viewer
+* [ ] Add more popular sky models
