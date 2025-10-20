@@ -61,7 +61,7 @@ def spherical_distance(psi: torch.Tensor, phi: torch.Tensor,
 gamma = spherical_distance(psi, phi, psi_s, phi_s, implementation="vicenty")
 
 # Set the turbidty
-T = 1.0
+T = 2.0
 
 # Compute absolute zenith luminance and chromaticity
 chi = (4.0 / 9.0 - T / 120.0) * (math.pi - 2 * theta_s)
