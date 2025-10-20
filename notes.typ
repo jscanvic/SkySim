@@ -149,35 +149,40 @@ $
 _Equirectangular projection (From Wikipedia)._
 
 $
-  (u, v) in [0, 1) times (0, 1) <-> (theta, phi.alt) in [-pi, pi) times (0, pi slash 2), \
-  theta = 2 pi u, quad "and" quad phi.alt = pi / 2 ( 1 - v ).
+  (u, v) in [0, 1) times (0, 1) <-> (psi, phi.alt) in [-pi, pi) times (0, pi slash 2), \
+  psi = 2 pi u, quad "and" quad phi.alt = pi / 2 ( 1 - v ).
 $
 
 _Conversion between standard and non-standard spherical coordinates._
 
 $
-  (theta, phi.alt, theta_s, phi.alt_s) in [-pi, pi) times (0, pi slash 2) times [-pi, pi) times (0, pi slash 2) \
+  (psi, phi.alt, psi_s, phi.alt_s) in [-pi, pi) times (0, pi slash 2) times [-pi, pi) times (0, pi slash 2) \
   -> \
-  (theta, theta_s, gamma) in [-pi, pi) times [-pi, pi) times [0, pi).
+  (theta, theta_s, gamma) in (0, pi slash 2) times (0, pi slash 2) times [0, pi).
+$
+
+_Zenith angles._
+$
+  theta = pi / 2 - phi.alt, quad "and" quad theta_s = pi / 2 - phi.alt_s.
 $
 
 _Spherical distance in spherical coordinates (from Wikipedia)._
 
 $
-  gamma = arccos( sin phi.alt sin phi.alt_s + cos phi.alt cos phi.alt_s cos( Delta theta ) ).
+  gamma = arccos( sin phi.alt sin phi.alt_s + cos phi.alt cos phi.alt_s cos( Delta psi ) ).
 $
 
 _Haversine formula (from Wikipedia)._
 
 $
-  gamma = "archav"("hav"(Delta phi.alt) + (1 - "hav"(phi.alt + phi.alt_s)) "hav"(Delta theta) ).
+  gamma = "archav"("hav"(Delta phi.alt) + (1 - "hav"(phi.alt + phi.alt_s)) "hav"(Delta psi) ).
 $
 
 _Vincenty formula (from Wikipedia)._
 
 $
-  gamma = "atan2"( sqrt( (cos phi.alt_s sin( Delta theta ))^2 + ( cos phi.alt sin phi.alt_s - sin phi.alt cos phi.alt_s cos( Delta theta ) )^2 ), \
-    sin phi.alt sin phi.alt_s + cos phi.alt cos phi.alt_s cos( Delta theta ) ).
+  gamma = "atan2"( sqrt( (cos phi.alt_s sin( Delta psi ))^2 + ( cos phi.alt sin phi.alt_s - sin phi.alt cos phi.alt_s cos( Delta psi ) )^2 ), \
+    sin phi.alt sin phi.alt_s + cos phi.alt cos phi.alt_s cos( Delta psi ) ).
 $
 
 _Conversion from CIE xyY to CIE XYZ (from Wikipedia)._

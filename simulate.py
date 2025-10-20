@@ -7,29 +7,33 @@ IMAGE_WIDTH = 7296
 # Discretize the equirectangular coordinate space
 H, W = IMAGE_HEIGHT, IMAGE_WIDTH
 i = torch.arange(W, dtype=torch.float32)
-j = torch.arange(floor(H / 2), dtype=torch.float32)
+j = torch.arange(H // 2, dtype=torch.float32)
 u = (i + 0.5) / W
 v = (2 * j + 1) / H
 u, v = torch.meshgrid(u, v, indexing='xy')
 
 # Convert to spherical coordinates
-theta = 2 * math.pi * u
+psi = 2 * math.pi * u
 phi = math.pi * (0.5 - v)
 
 # Set the position of the sun
-theta_s = math.pi
+psi_s = math.pi
 phi_s = math.pi / 2
 
+# Compute the zenith angles
+theta = torch.pi / 2 - phi
+theta_s = math.pi / 2 - phi_s
+
 # Compute the spherical distance between each pixel and the sun position
-def spherical_distance(theta: torch.Tensor, phi: torch.Tensor,
-                       theta_s: float, phi_s: float, *, implementation: str) -> torch.Tensor:
+def spherical_distance(psi: torch.Tensor, phi: torch.Tensor,
+                       psi_s: float, phi_s: float, *, implementation: str) -> torch.Tensor:
     if implementation == "simple":
         gamma = torch.acos(
             torch.sin(phi) * math.sin(phi_s) +
-            torch.cos(phi) * math.cos(phi_s) * torch.cos(theta - theta_s)
+            torch.cos(phi) * math.cos(phi_s) * torch.cos(psi - psi_s)
         )
     elif implementation == "haversine":
-        delta_theta = theta - theta_s
+        delta_psi = psi - psi_s
         delta_phi = phi - phi_s
 
         def archav(x: torch.Tensor) -> torch.Tensor:
@@ -39,22 +43,22 @@ def spherical_distance(theta: torch.Tensor, phi: torch.Tensor,
             return (1 - torch.cos(x)) / 2
 
         gamma = archav(hav(delta_phi) +
-                       (1 - hav(phi + phi_s)) * hav(delta_theta))
+                       (1 - hav(phi + phi_s)) * hav(delta_psi))
     elif implementation == "vicenty":
-        delta_theta = theta - theta_s
+        delta_psi = psi - psi_s
         gamma = torch.atan2(
             torch.sqrt(
-                (math.cos(phi_s) * torch.sin(delta_theta))**2 +
+                (math.cos(phi_s) * torch.sin(delta_psi))**2 +
                 (torch.cos(phi) * math.sin(phi_s) -
-                 torch.sin(phi) * math.cos(phi_s) * torch.cos(delta_theta))**2
+                 torch.sin(phi) * math.cos(phi_s) * torch.cos(delta_psi))**2
             ),
             torch.sin(phi) * math.sin(phi_s) +
-            torch.cos(phi) * math.cos(phi_s) * torch.cos(delta_theta)
+            torch.cos(phi) * math.cos(phi_s) * torch.cos(delta_psi)
         )
 
     return gamma
 
-gamma = spherical_distance(theta, phi, theta_s, phi_s, implementation="vicenty")
+gamma = spherical_distance(psi, phi, psi_s, phi_s, implementation="vicenty")
 
 # Set the turbidty
 T = 1.0
