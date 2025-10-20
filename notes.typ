@@ -142,21 +142,21 @@ $
 _Discretization in equirectangular coordinates._
 
 $
-  (i, j) in {0, ..., W - 1} times {0, ..., H - 1} -> (u, v) in [0, 1) times (0, 1), \
-  u = (i + 0.5) / W, quad "and" quad v = (j + 0.5) / H.
+  (i, j) in {0, ..., W - 1} times {0, ..., floor(H slash 2) - 1} -> (u, v) in [0, 1) times (0, 1), \
+  u = (i + 0.5) / W, quad "and" quad v = (2j + 1) / H.
 $
 
 _Equirectangular projection (From Wikipedia)._
 
 $
-  (u, v) in [0, 1) times (0, 1) <-> (theta, phi.alt) in [-pi, pi) times (-pi slash 2, pi slash 2), \
-  theta = 2 pi u, quad "and" quad phi.alt = pi ( 0.5 - v ).
+  (u, v) in [0, 1) times (0, 1) <-> (theta, phi.alt) in [-pi, pi) times (0, pi slash 2), \
+  theta = 2 pi u, quad "and" quad phi.alt = pi / 2 ( 1 - v ).
 $
 
 _Conversion between standard and non-standard spherical coordinates._
 
 $
-  (theta, phi.alt, theta_s, phi.alt_s) in [-pi, pi) times (-pi slash 2, pi slash 2) times [-pi, pi) times (-pi slash 2, pi slash 2) \
+  (theta, phi.alt, theta_s, phi.alt_s) in [-pi, pi) times (0, pi slash 2) times [-pi, pi) times (0, pi slash 2) \
   -> \
   (theta, theta_s, gamma) in [-pi, pi) times [-pi, pi) times [0, pi).
 $

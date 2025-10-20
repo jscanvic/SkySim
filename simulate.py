@@ -5,8 +5,11 @@ IMAGE_HEIGHT = 3648
 IMAGE_WIDTH = 7296
 
 # Discretize the equirectangular coordinate space
-u = (torch.arange(IMAGE_WIDTH, dtype=torch.float32) + 0.5) / IMAGE_WIDTH
-v = (torch.arange((IMAGE_HEIGHT + 1) // 2, IMAGE_HEIGHT, dtype=torch.float32) + 0.5) / IMAGE_HEIGHT
+H, W = IMAGE_HEIGHT, IMAGE_WIDTH
+i = torch.arange(W, dtype=torch.float32)
+j = torch.arange(floor(H / 2), dtype=torch.float32)
+u = (i + 0.5) / W
+v = (2 * j + 1) / H
 u, v = torch.meshgrid(u, v, indexing='xy')
 
 # Convert to spherical coordinates
