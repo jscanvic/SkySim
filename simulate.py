@@ -1,4 +1,5 @@
 import torch
+from PIL import Image
 import math
 
 IMAGE_HEIGHT = 3648
@@ -126,6 +127,15 @@ R =  3.2406255 * X - 1.5372073 * Y - 0.4986286 * Z
 G = -0.9689307 * X + 1.8757561 * Y + 0.0415175 * Z
 B =  0.0557101 * X - 0.2040211 * Y + 1.0569959 * Z
 
+# Clamp and set the dynamic range
+alpha = 10.0
+R /= alpha
+G /= alpha
+B /= alpha
+R = R.clamp(0, 1)
+G = G.clamp(0, 1)
+B = B.clamp(0, 1)
+
 # Convert from linear sRGB to sRGB
 def transfer_fn(c: torch.Tensor) -> torch.Tensor:
     return torch.where(
@@ -148,13 +158,9 @@ im = torch.cat([im, im_ground], dim=0)
 # Display if NaN values are present
 print(f"Any NaN values in the image: {torch.isnan(im).any().item()}")
 
-# Clamp and quantize
-im = im * .4
-im = im.clamp(0, 1)
+# Quantize
 im = (im * 255).to(torch.uint8)
 
-# 3. Save it as a JPEG file
-
-from PIL import Image
+# Save the image
 img = Image.fromarray(im.numpy(), 'RGB')
 img.save('sky.jpeg', 'JPEG')
