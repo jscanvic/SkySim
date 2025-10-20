@@ -142,8 +142,11 @@ Bp = transfer_fn(B)
 im = torch.stack([Rp, Gp, Bp], dim=-1)
 
 # Append the lower hemisphere (black)
-im_lower = torch.zeros(((IMAGE_HEIGHT + 1) // 2, IMAGE_WIDTH, 3), dtype=im.dtype)
-im = torch.cat([im, im_lower], dim=0)
+im_ground = torch.zeros(((IMAGE_HEIGHT + 1) // 2, IMAGE_WIDTH, 3), dtype=im.dtype)
+im = torch.cat([im, im_ground], dim=0)
+
+# Display if NaN values are present
+print(f"Any NaN values in the image: {torch.isnan(im).any().item()}")
 
 # Clamp and quantize
 im = im / 1e1
