@@ -142,7 +142,7 @@ $
 _Equirectangular projection._
 
 $
-  (u, v) in (0, 1) times (0, 1) <-> (theta, phi) in (-pi, pi) times (-pi slash 2, pi slash 2), \
+  (u, v) in (0, 1) times (0, 1) <-> (theta, phi.alt) in (-pi, pi) times (-pi slash 2, pi slash 2), \
   theta = 2 pi (u - 0.5), quad "and" quad phi.alt = pi ( 0.5 - v ).
 $
 
@@ -155,7 +155,30 @@ $
 
 _Conversion between standard and non-standard spherical coordinates._
 
-Work in progress.
+$
+  (theta, phi.alt, theta_s, phi.alt_s) in (-pi, pi) times (-pi slash 2, pi slash 2) times (-pi, pi) times (-pi slash 2, pi slash 2) \
+  -> \
+  (theta, theta_s, gamma) in (-pi, pi) times (-pi, pi) times [0, pi).
+$
+
+_Spherical distance in spherical coordinates (from Wikipedia)._
+
+$
+  gamma = arccos( sin phi.alt sin phi.alt_s + cos phi.alt cos phi.alt_s cos( Delta theta ) ).
+$
+
+_Haversine formula (from Wikipedia)._
+
+$
+  gamma = "archav"("hav"(Delta phi.alt) + (1 - "hav"(phi.alt + phi.alt_s)) "hav"(Delta theta) ).
+$
+
+_Vincenty formula (from Wikipedia)._
+
+$
+  gamma = "atan2"( sqrt( (cos phi.alt_s sin( Delta theta ))^2 + ( cos phi.alt sin phi.alt_s - sin phi.alt cos phi.alt_s cos( Delta theta ) )^2 ), \
+    sin phi.alt sin phi.alt_s + cos phi.alt cos phi.alt_s cos( Delta theta ) ).
+$
 
 _Conversion from CIE xyY to CIE XYZ (from Wikipedia)._
 
@@ -183,11 +206,3 @@ $
     1.055 R^(1 slash 2.4) - 0.055 quad &"otherwise".
   ), quad #[and similarly for $G'$ and $B'$.]
 $
-
-_Conversion from CIE xyY to sRGB._
-
-Work in progress.
-
-_Spherical distance in spherical coordinates._
-
-Work in progress.
