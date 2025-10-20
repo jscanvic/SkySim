@@ -149,7 +149,7 @@ im = torch.cat([im, im_ground], dim=0)
 print(f"Any NaN values in the image: {torch.isnan(im).any().item()}")
 
 # Clamp and quantize
-im = im / 1e1
+im = im * .4
 im = im.clamp(0, 1)
 im = (im * 255).to(torch.uint8)
 

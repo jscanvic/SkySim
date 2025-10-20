@@ -2,7 +2,7 @@
 
 Basic sky simulation built with physical accuracy in mind
 
-![Sunset sunrise](sunset_sunrise.jpeg)
+![Simulated sky](sky.jpeg)
 
 ## How to use?
 
