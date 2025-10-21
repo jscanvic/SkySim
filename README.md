@@ -18,15 +18,23 @@ Basic sky simulation built with physical accuracy in mind
 * https://panoraven.com
 * https://photo-sphere-viewer.js.org/playground.html
 
-## Sky models
+## References
 
-**Perez All-Weather**
+**Sky models**
+
+_Perez All-Weather_
 
 All-weather model for sky luminance distribution—Preliminary configuration and validation, Perez et al., Solar Energy (vol. 50, issue 3), 1993
 
-**Preetham**
+_Preetham_
 
 A practical analytic model for daylight, Preetham et al., Proceedings of the 26th annual conference on Computer graphics and interactive techniques (SIGGRAPH '99), 1999
+
+**Tone mapping**
+
+_Reinhard_
+
+Photographic tone reproduction for digital images, Reinhard et al., ACM Transactions on Graphics (TOG), vol. 21, issue 3, 2002
 
 ## Equations
 

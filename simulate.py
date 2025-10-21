@@ -127,29 +127,48 @@ R =  3.2406255 * X - 1.5372073 * Y - 0.4986286 * Z
 G = -0.9689307 * X + 1.8757561 * Y + 0.0415175 * Z
 B =  0.0557101 * X - 0.2040211 * Y + 1.0569959 * Z
 
-# Clamp and set the dynamic range
-alpha = 10.0
-R /= alpha
-G /= alpha
-B /= alpha
-R = R.clamp(0, 1)
-G = G.clamp(0, 1)
-B = B.clamp(0, 1)
+# Stack the channels to form the RGB image
+im = torch.stack([R, G, B], dim=-1)
+
+# Apply tone mapping
+def tone_mapping_fn(im: torch.Tensor,
+                    *,
+                    method: str,
+                    alpha: float | None = None,
+                    white: float | str | None = None,
+                    delta: float | None = None) -> torch.Tensor:
+    if method == "global_reinhard":
+        delta = delta if delta is not None else 1e-9  # arbitrary
+        N = im.numel() / 3
+        log_avg = 1 / N * torch.exp(torch.log(delta + im).sum())
+        alpha = alpha if alpha is not None else 0.18
+        im = alpha / log_avg * im
+        if white is None:
+            raise ValueError("white_point must be specified for global_reinhard tone mapping")
+        elif white == "none":
+            im = im / (1 + im)
+        elif isinstance(white, float):
+            im = im * (1 + (im / white**2)) / (1 + im)
+        else:
+            raise ValueError(f"Unknown white_point value: {white}")
+    elif method == "hardcoded":
+        im = im / 10.0
+        im = im.clamp(0, 1)
+    else:
+        raise ValueError(f"Unknown tone mapping method: {method}")
+    return im
+
+im = tone_mapping_fn(im, method="hardcoded")
 
 # Convert from linear sRGB to sRGB
-def transfer_fn(c: torch.Tensor) -> torch.Tensor:
+def transfer_fn(im: torch.Tensor) -> torch.Tensor:
     return torch.where(
-        c <= 0.0031308,
-        12.92 * c,
-        1.055 * torch.pow(c, 1 / 2.4) - 0.055
+        im <= 0.0031308,
+        12.92 * im,
+        1.055 * torch.pow(im, 1 / 2.4) - 0.055
     )
 
-Rp = transfer_fn(R)
-Gp = transfer_fn(G)
-Bp = transfer_fn(B)
-
-# Stack the channels to form the RGB image
-im = torch.stack([Rp, Gp, Bp], dim=-1)
+im = transfer_fn(im)
 
 # Append the lower hemisphere (black)
 im_ground = torch.zeros(((IMAGE_HEIGHT + 1) // 2, IMAGE_WIDTH, 3), dtype=im.dtype)

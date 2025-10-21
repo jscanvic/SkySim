@@ -137,6 +137,34 @@ $
 
 #pagebreak()
 
+*Reinhard tone mapping.*
+
+_Log-average luminance._
+
+$
+  overline(L)_w = 1 / N exp(sum_(x, y) log(delta + L_w(x, y))).
+$
+
+_Scaled luminance._
+
+$
+  L(x, y) = alpha / overline(L)_(w) L_w(x, y).
+$
+
+_Global burning-free tone mapping._
+
+$
+  L_(d)(x, y) = L(x, y) / (1 + L(x, y)).
+$
+
+_Global tone mapping with a white point._
+
+$
+  L_(d)(x, y) = (L(x, y) (1 + L(x, y) / L_("white")^2)) / (1 + L(x, y)).
+$
+
+#pagebreak()
+
 *Additional equations.*
 
 _Discretization in equirectangular coordinates._
