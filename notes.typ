@@ -139,10 +139,10 @@ $
 
 *Reinhard tone mapping.*
 
-_Log-average luminance._
+_Log-average luminance (corrected)._
 
 $
-  overline(L)_w = 1 / N exp(sum_(x, y) log(delta + L_w(x, y))).
+  overline(L)_w = exp(1/N sum_(x, y) log(delta + L_w(x, y))).
 $
 
 _Scaled luminance._

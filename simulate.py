@@ -140,18 +140,24 @@ def tone_mapping_fn(im: torch.Tensor,
     if method == "global_reinhard":
         delta = delta if delta is not None else 1e-9  # arbitrary
         N = im.numel() / 3
-        log_avg = 1 / N * torch.exp(torch.log(delta + im).sum())
+        log_avg = torch.exp(torch.log(delta + im).mean())
         alpha = alpha if alpha is not None else 0.18
         im = alpha / log_avg * im
-        if white is None:
-            raise ValueError("white_point must be specified for global_reinhard tone mapping")
-        elif white == "none":
+        if white == "none":
             im = im / (1 + im)
         elif isinstance(white, float):
             im = im * (1 + (im / white**2)) / (1 + im)
+        elif white is None:
+            raise ValueError("white must be specified for global_reinhard method")
         else:
-            raise ValueError(f"Unknown white_point value: {white}")
+            raise ValueError(f"Unknown white value: {white}")
     elif method == "hardcoded":
+        if alpha is not None:
+            raise ValueError("alpha should not be specified for hardcoded method")
+        if white is not None:
+            raise ValueError("white should not be specified for hardcoded method")
+        if delta is not None:
+            raise ValueError("delta should not be specified for hardcoded method")
         im = im / 10.0
         im = im.clamp(0, 1)
     else:
