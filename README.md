@@ -42,8 +42,8 @@ The equations used in the simulation are reported [here](notes.pdf).
 
 ## TODO
 
+* [x] Implement proper tone mapping
 * [ ] Make a proper command-line interface
-* [ ] Use a better scale for the final dynamic range
 * [ ] Compute the position of the sun from time and location
 * [ ] Make an interactive viewer
 * [ ] Add more popular sky models
