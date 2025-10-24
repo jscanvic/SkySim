@@ -118,6 +118,9 @@ Y = Y_z * perez_fn(theta, gamma, **perez_coeffs_Y) / perez_fn(torch.tensor(0.0),
 x = x_z * perez_fn(theta, gamma, **perez_coeffs_x) / perez_fn(torch.tensor(0.0), torch.tensor(theta_s), **perez_coeffs_x)
 y = y_z * perez_fn(theta, gamma, **perez_coeffs_y) / perez_fn(torch.tensor(0.0), torch.tensor(theta_s), **perez_coeffs_y)
 
+# Convert kcd/m^2 to cd/m^2
+Y = Y * 1000.0
+
 # Convert CIE xyY to CIE XYZ
 X = (Y / y) * x
 Z = (Y / y) * (1 - x - y)
