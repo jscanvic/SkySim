@@ -114,9 +114,9 @@ perez_coeffs_y = {
     'E': -0.0109 * T + 0.0529
 }
 
-Y = Y_z * perez_fn(theta, gamma, **perez_coeffs_Y)
-x = x_z * perez_fn(theta, gamma, **perez_coeffs_x)
-y = y_z * perez_fn(theta, gamma, **perez_coeffs_y)
+Y = Y_z * perez_fn(theta, gamma, **perez_coeffs_Y) / perez_fn(torch.tensor(0.0), torch.tensor(theta_s), **perez_coeffs_Y)
+x = x_z * perez_fn(theta, gamma, **perez_coeffs_x) / perez_fn(torch.tensor(0.0), torch.tensor(theta_s), **perez_coeffs_x)
+y = y_z * perez_fn(theta, gamma, **perez_coeffs_y) / perez_fn(torch.tensor(0.0), torch.tensor(theta_s), **perez_coeffs_y)
 
 # Convert CIE xyY to CIE XYZ
 X = (Y / y) * x
