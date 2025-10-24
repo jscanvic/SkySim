@@ -134,7 +134,7 @@ B =  0.0557101 * X - 0.2040211 * Y + 1.0569959 * Z
 im = torch.stack([R, G, B], dim=-1)
 
 # Apply tone mapping
-def tone_mapping_fn(im: torch.Tensor,
+def tone_mapping_fn(Y: torch.Tensor,
                     *,
                     method: str,
                     alpha: float | None = None,
@@ -142,14 +142,14 @@ def tone_mapping_fn(im: torch.Tensor,
                     delta: float | None = None) -> torch.Tensor:
     if method == "global_reinhard":
         delta = delta if delta is not None else 1e-9  # arbitrary
-        N = im.numel() / 3
-        log_avg = torch.exp(torch.log(delta + im).mean())
+        N = Y.numel() / 3
+        log_avg = torch.exp(torch.log(delta + Y).mean())
         alpha = alpha if alpha is not None else 0.18
-        im = alpha / log_avg * im
+        Y = alpha / log_avg * Y
         if white == "none":
-            im = im / (1 + im)
+            Y = Y / (1 + Y)
         elif isinstance(white, float):
-            im = im * (1 + (im / white**2)) / (1 + im)
+            Y = Y * (1 + (Y / white**2)) / (1 + Y)
         elif white is None:
             raise ValueError("white must be specified for global_reinhard method")
         else:
@@ -161,13 +161,17 @@ def tone_mapping_fn(im: torch.Tensor,
             raise ValueError("white should not be specified for hardcoded method")
         if delta is not None:
             raise ValueError("delta should not be specified for hardcoded method")
-        im = im / 10.0
-        im = im.clamp(0, 1)
+        Y = Y / 10.0
+        Y = Y.clamp(0, 1)
     else:
         raise ValueError(f"Unknown tone mapping method: {method}")
-    return im
+    return Y
 
-im = tone_mapping_fn(im, method="hardcoded")
+percentile = 0.995
+white_point = torch.quantile(Y, percentile).item()
+Y_d = tone_mapping_fn(Y, method="global_reinhard", alpha=0.18, white=white_point)
+im = (Y_d / Y).unsqueeze(-1) * im
+im = im.clamp(0, 1)
 
 # Convert from linear sRGB to sRGB
 def transfer_fn(im: torch.Tensor) -> torch.Tensor:
@@ -178,6 +182,7 @@ def transfer_fn(im: torch.Tensor) -> torch.Tensor:
     )
 
 im = transfer_fn(im)
+im = im.clamp(0, 1)
 
 # Append the lower hemisphere (black)
 im_ground = torch.zeros(((IMAGE_HEIGHT + 1) // 2, IMAGE_WIDTH, 3), dtype=im.dtype)
