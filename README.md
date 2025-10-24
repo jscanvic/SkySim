@@ -5,7 +5,7 @@ Basic sky simulation built with physical accuracy in mind
 
 <p align="center">
     <img src="sky.jpeg" alt="Sky simulation example" width="100%" />
-    <a href="https://panoraven.com/en/embed/TcZGdmp79N">View in 360°!</a>
+    <a href="https://panoraven.com/en/embed/aLm1g6enlp">View in 360°!</a>
 </p>
 
 ## Instructions
