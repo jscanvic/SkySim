@@ -154,15 +154,6 @@ def tone_mapping_fn(Y: torch.Tensor,
             raise ValueError("white must be specified for global_reinhard method")
         else:
             raise ValueError(f"Unknown white value: {white}")
-    elif method == "hardcoded":
-        if alpha is not None:
-            raise ValueError("alpha should not be specified for hardcoded method")
-        if white is not None:
-            raise ValueError("white should not be specified for hardcoded method")
-        if delta is not None:
-            raise ValueError("delta should not be specified for hardcoded method")
-        Y = Y / 10.0
-        Y = Y.clamp(0, 1)
     else:
         raise ValueError(f"Unknown tone mapping method: {method}")
     return Y
